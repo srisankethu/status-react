@@ -70,7 +70,7 @@ PODS:
     - React
   - React/Core (0.56.0):
     - yoga (= 0.56.0.React)
-  - RNKeychain (3.0.0):
+  - RNKeychain (3.0.0-rc.3):
     - React
   - yoga (0.56.0.React)
 
@@ -129,4 +129,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b24b9e1dd90a715fd354083342dceb8f1a2f6d75
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

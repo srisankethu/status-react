@@ -47,8 +47,9 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
     private boolean debug;
     private boolean devCluster;
     private ReactApplicationContext reactContext;
+    private boolean rootedDevice;
 
-    StatusModule(ReactApplicationContext reactContext, boolean debug, boolean devCluster) {
+    StatusModule(ReactApplicationContext reactContext, boolean debug, boolean devCluster, boolean rootedDevice) {
         super(reactContext);
         if (executor == null) {
             executor = Executors.newCachedThreadPool();
@@ -56,6 +57,7 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         this.debug = debug;
         this.devCluster = devCluster;
         this.reactContext = reactContext;
+        this.rootedDevice = rootedDevice;
         reactContext.addLifecycleEventListener(this);
     }
 
@@ -687,7 +689,7 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         Log.d(TAG, "AppStateChange: " + type);
         Statusgo.AppStateChange(type);
     }
-    
+
     private static String uniqueID = null;
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
 
@@ -818,5 +820,10 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
 
     constants.put("is24Hour", this.is24Hour());
     return constants;
+  }
+
+  @ReactMethod
+  public void isDeviceRooted(final Callback callback) {
+    callback.invoke(rootedDevice);
   }
 }
