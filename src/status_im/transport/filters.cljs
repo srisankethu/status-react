@@ -31,7 +31,7 @@
    (let [params   {:topics [topic]
                    :symKeyID sym-key-id}
          callback (fn [js-error js-message]
-                    (re-frame/dispatch [:transport/messages-received js-error js-message chat-id]))]
+                    #_(re-frame/dispatch [:transport/messages-received js-error js-message chat-id]))]
      (add-filter! web3 params callback chat-id))))
 
 (re-frame/reg-fx
@@ -40,7 +40,7 @@
    (let [params   {:topics [topic]
                    :privateKeyID private-key-id}
          callback (fn [js-error js-message]
-                    (re-frame/dispatch [:transport/messages-received js-error js-message]))]
+                    #_(re-frame/dispatch [:transport/messages-received js-error js-message]))]
      (add-filter! web3 params callback :discovery-topic))))
 
 (defn all-filters-added?

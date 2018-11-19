@@ -130,15 +130,29 @@
                                                                    :text    input-text}
                                                             reply-to-message
                                                             (assoc :response-to reply-to-message))})
-                (commands.input/set-command-reference nil)
-                (set-chat-input-text nil)
-                (process-cooldown)))))
+                #_(commands.input/set-command-reference nil)
+                #_(set-chat-input-text nil)
+                #_(process-cooldown)))))
 
 (fx/defn send-current-message
   "Sends message from current chat input"
   [{{:keys [current-chat-id id->command access-scope->command-id] :as db} :db :as cofx}]
   (let [input-text   (get-in db [:chats current-chat-id :input-text])
         command      (commands.input/selected-chat-command
+                      input-text nil (commands/chat-commands id->command
+                                                             access-scope->command-id
+                                                             (get-in db [:chats current-chat-id])))]
+    (if command
+      ;; Returns true if current input contains command
+      (if (= :complete (:command-completion command))
+        (command-complete-fx input-text command cofx)
+        (command-not-complete-fx input-text current-chat-id cofx))
+      (plain-text-message-fx input-text current-chat-id cofx))))
+
+(fx/defn send-pbchat-message
+  [{{:keys [id->command access-scope->command-id] :as db} :db :as cofx}
+   current-chat-id input-text]
+  (let [command      (commands.input/selected-chat-command
                       input-text nil (commands/chat-commands id->command
                                                              access-scope->command-id
                                                              (get-in db [:chats current-chat-id])))]

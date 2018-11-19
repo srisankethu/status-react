@@ -137,9 +137,10 @@
      (post-message {:web3            web3
                     :whisper-message (update message :payload (comp transport.utils/from-utf8
                                                                     transit/serialize))
-                    :on-success      (if success-event
-                                       #(re-frame/dispatch (conj success-event %))
-                                       #(log/debug :shh/post-success))
+                    :on-success      #()
+                    #_(if success-event
+                        #(re-frame/dispatch (conj success-event %))
+                        #(log/debug :shh/post-success))
                     :on-error        #(re-frame/dispatch [error-event %])}))))
 
 (defn add-sym-key

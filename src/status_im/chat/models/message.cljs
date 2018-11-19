@@ -296,8 +296,8 @@
     (fx/merge cofx
               (chat-model/upsert-chat {:chat-id chat-id
                                        :timestamp now})
-              (add-message false message-with-id true)
-              (add-own-status chat-id message-id :sending)
+              #_(add-message false message-with-id true)
+              #_(add-own-status chat-id message-id :sending)
               (send chat-id message-id send-record))))
 
 (fx/defn send-push-notification [cofx fcm-token status]

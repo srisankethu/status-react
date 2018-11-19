@@ -106,7 +106,7 @@
              {:db (assoc db :chats/loading? false)}
              (chat-loading/initialize-chats)
              (protocol/initialize-protocol address)
-             (chat-loading/initialize-pending-messages))))
+             #_(chat-loading/initialize-pending-messages))))
 
 (handlers/register-handler-fx
  :init.callback/account-change-success
@@ -688,6 +688,11 @@
  :chat.ui/send-current-message
  (fn [cofx _]
    (chat.input/send-current-message cofx)))
+
+(handlers/register-handler-fx
+ :send-pbchat-message
+ (fn [cofx [_ chat-id text]]
+   (chat.input/send-pbchat-message cofx chat-id text)))
 
 (handlers/register-handler-fx
  :chat/disable-cooldown
