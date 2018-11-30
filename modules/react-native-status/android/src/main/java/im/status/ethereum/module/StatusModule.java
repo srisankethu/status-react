@@ -404,9 +404,9 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                 String result = Statusgo.LoginWithKeycard(walletAddress, whisperPrivateKey);
+                 // String result = Statusgo.LoginWithKeycard(walletAddress, whisperPrivateKey);
 
-                 callback.invoke(result);
+                 // callback.invoke(result);
             }
         };
 
