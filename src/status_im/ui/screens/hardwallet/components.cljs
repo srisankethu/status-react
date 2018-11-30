@@ -26,21 +26,21 @@
            ^{:key k} [react/text {:style {:font-size 15}}
                       (str k " " v)])
          [react/text {:style {:font-size 15}}
-          error])]
+          "Applet is not installed"])]
       [react/touchable-highlight
        {:on-press #(do
                      (js/alert "Installation started. Please wait 15-20 seconds.")
                      (re-frame/dispatch [:hardwallet.ui/install-applet-button-clicked]))}
        [react/view {:align-items :center
                     :text-style  :underline
-                    :margin-top  28}
+                    :margin-top  48}
         [react/text {:style {:font-size 18}}
          "Install applet"]]]
       [react/touchable-highlight
        {:on-press #(reset! visible? false)}
        [react/view {:align-items :center
                     :text-style  :underline
-                    :margin-top  28}
+                    :margin-top  48}
         [react/text {:style {:font-size 18}}
          "Close window"]]]]]))
 

@@ -38,8 +38,15 @@
         (then #(re-frame/dispatch [:hardwallet.callback/on-initialization-success %]))
         (catch #(re-frame/dispatch [:hardwallet.callback/on-initialization-error (str %)])))))
 
+(defn remove-event-listeners []
+  (doseq [event ["keyCardOnConnected" "keyCardOnDisconnected"]]
+    (.removeAllListeners event-emitter event)))
+
 (defn register-card-events []
   (when (and config/hardwallet-enabled?)
+
+    (remove-event-listeners)
+
     (re-frame/dispatch [:hardwallet.callback/on-register-card-events
                         {:on-card-connected
                          (.addListener event-emitter

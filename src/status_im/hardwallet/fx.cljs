@@ -33,6 +33,10 @@
  card/register-card-events)
 
 (re-frame/reg-fx
+ :hardwallet/remove-event-listeners
+ card/remove-event-listeners)
+
+(re-frame/reg-fx
  :hardwallet/pair
  card/pair)
 

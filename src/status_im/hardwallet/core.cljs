@@ -27,17 +27,20 @@
   [{:keys [db]} listeners]
   {:db (update-in db [:hardwallet :listeners] merge listeners)})
 
-(fx/defn on-application-info-success
+(fx/defn on-get-application-info-success
   [{:keys [db]} info]
   (let [info' (js->clj info :keywordize-keys true)]
     {:db (-> db
              (assoc-in [:hardwallet :application-info] info')
+             (assoc-in [:hardwallet :application-info :applet-installed?] true)
              (assoc-in [:hardwallet :application-info-error] nil))}))
 
-(fx/defn on-application-info-error
+(fx/defn on-get-application-info-error
   [{:keys [db]} error]
   (log/debug "[hardwallet] application info error " error)
-  {:db (assoc-in db [:hardwallet :application-info-error] error)})
+  {:db (-> db
+           (assoc-in [:hardwallet :application-info-error] error)
+           (assoc-in [:hardwallet :application-info :applet-installed?] false))})
 
 (fx/defn on-install-applet-success
   [{:keys [db]} info]
@@ -89,7 +92,8 @@
 
 (fx/defn navigate-to-connect-screen [cofx]
   (fx/merge cofx
-            {:hardwallet/check-nfc-enabled nil}
+            {:hardwallet/check-nfc-enabled    nil
+             :hardwallet/register-card-events nil}
             (navigation/navigate-to-cofx :hardwallet-connect nil)))
 
 (fx/defn success-button-pressed [cofx]

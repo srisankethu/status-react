@@ -788,12 +788,12 @@
 (handlers/register-handler-fx
  :hardwallet.callback/on-get-application-info-success
  (fn [cofx [_ info]]
-   (hardwallet/on-application-info-success cofx info)))
+   (hardwallet/on-get-application-info-success cofx info)))
 
 (handlers/register-handler-fx
  :hardwallet.callback/on-get-application-info-error
  (fn [cofx [_ error]]
-   (hardwallet/on-application-info-error cofx error)))
+   (hardwallet/on-get-application-info-error cofx error)))
 
 (handlers/register-handler-fx
  :hardwallet.callback/on-install-applet-success
