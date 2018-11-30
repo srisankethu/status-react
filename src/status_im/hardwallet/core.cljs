@@ -319,7 +319,7 @@
                 whisper-private-key
                 whisper-address
                 wallet-address
-                db-public-key]} (js->clj data :keywordize-keys true)
+                encryption-public-key]} (js->clj data :keywordize-keys true)
         whisper-public-key' (str "0x" whisper-public-key)
         keycard-instance-uid (get-in db [:hardwallet :application-info :instance-uid])]
     (fx/merge cofx
@@ -328,12 +328,12 @@
                        (assoc-in [:hardwallet :whisper-private-key] whisper-private-key)
                        (assoc-in [:hardwallet :whisper-address] whisper-address)
                        (assoc-in [:hardwallet :wallet-address] wallet-address)
-                       (assoc-in [:hardwallet :db-public-key] db-public-key))}
+                       (assoc-in [:hardwallet :encryption-public-key] encryption-public-key))}
               (accounts.create/on-account-created {:pubkey   whisper-public-key'
                                                    :address  wallet-address
                                                    :mnemonic ""
                                                    :keycard-instance-uid keycard-instance-uid}
-                                                  db-public-key
+                                                  encryption-public-key
                                                   true)
               (navigation/navigate-to-cofx :hardwallet-success nil))))
 
@@ -349,16 +349,16 @@
   (let [{:keys [whisper-public-key
                 whisper-private-key
                 wallet-address
-                db-public-key]} (js->clj data :keywordize-keys true)
+                encryption-public-key]} (js->clj data :keywordize-keys true)
         whisper-public-key' (str "0x" whisper-public-key)
         {:keys [photo-path name]} (get-in db [:accounts/accounts wallet-address])
-        password db-public-key]
+        password encryption-public-key]
     (fx/merge cofx
               {:db (-> db
                        (assoc-in [:hardwallet :whisper-public-key] whisper-public-key')
                        (assoc-in [:hardwallet :whisper-private-key] whisper-private-key)
                        (assoc-in [:hardwallet :wallet-address] wallet-address)
-                       (assoc-in [:hardwallet :db-public-key] db-public-key)
+                       (assoc-in [:hardwallet :encryption-public-key] encryption-public-key)
                        (update :accounts/login assoc
                                :password password
                                :address wallet-address

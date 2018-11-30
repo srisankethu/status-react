@@ -21,7 +21,7 @@
 
 (defview hardwallet-success []
   (letsubs [account [:account/account]]
-    (let [processing? (reagent/atom false)]
+    (let [processing? (reagent/atom (nil? account))]
       [react/view styles/container
        [status-bar/status-bar]
        [react/view components.styles/flex
