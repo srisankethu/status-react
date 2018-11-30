@@ -385,5 +385,5 @@
     [react/keyboard-avoiding-view components.styles/flex
      [react/view styles/container
       [react/view styles/inner-container
-       [components/maintain-card]
+       [components/maintain-card step]
        [content step]]]]))

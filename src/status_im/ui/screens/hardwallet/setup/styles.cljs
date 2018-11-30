@@ -27,10 +27,35 @@
    :border-style    :dashed})
 
 (def maintain-card-text
-  {:padding-horizontal 20
-   :font-size          12
+  {:font-size          12
    :width              232
+   :padding-horizontal 30
    :color              colors/blue})
+
+(def setup-steps-container
+  {:flex-direction   :row
+   :align-items      :baseline
+   :flex             1
+   :width            "95%"
+   :background-color :white
+   :padding-left     20
+   :margin-right     20})
+
+(def maintain-card-current-step-text
+  {:font-size 12
+   :color     colors/blue})
+
+(def maintain-card-second-step-text
+  {:font-size    12
+   :padding-left 8
+   ;:background-color :red
+   :color        colors/gray})
+
+(def maintain-card-third-step-text
+  {:font-size    12
+   ;:background-color :yellow
+   :padding-left 8
+   :color        colors/gray})
 
 (def hardwallet-icon-container
   {:margin-left    20
@@ -175,9 +200,9 @@
    :margin-top      30})
 
 (def secret-keys-inner-container
-  {:flex-direction :column
+  {:flex-direction  :column
    :justify-content :space-between
-   :align-items    :center})
+   :align-items     :center})
 
 (def secret-keys-title-container
   {:width 292})
@@ -255,7 +280,7 @@
    :margin-bottom 20})
 
 (def card-is-empty-prepare-text
-  {:margin-top 10
+  {:margin-top         10
    :padding-horizontal 40})
 
 (def remaining-steps-container
