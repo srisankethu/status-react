@@ -961,6 +961,11 @@
    (hardwallet/load-preparing-screen cofx)))
 
 (handlers/register-handler-fx
+ :hardwallet/install-applet-and-init-card
+ (fn [cofx _]
+   (hardwallet/install-applet-and-init-card cofx)))
+
+(handlers/register-handler-fx
  :hardwallet.ui.lifecycle/preparing-screen-did-mount
  (fn [cofx _]
    (hardwallet/install-applet-and-init-card cofx)))
@@ -1044,6 +1049,11 @@
    (hardwallet/pair cofx)))
 
 (handlers/register-handler-fx
+ :hardwallet/pair
+ (fn [cofx _]
+   (hardwallet/pair cofx)))
+
+(handlers/register-handler-fx
  :hardwallet.ui/success-button-pressed
  (fn [cofx _]
    (hardwallet/success-button-pressed cofx)))
@@ -1065,12 +1075,12 @@
    (hardwallet/load-generating-mnemonic-screen cofx)))
 
 (handlers/register-handler-fx
- :hardwallet.ui.lifecycle/generating-mnemonic-screen-did-mount
+ :hardwallet/generate-mnemonic
  (fn [cofx _]
    (hardwallet/generate-mnemonic cofx)))
 
 (handlers/register-handler-fx
- :hardwallet.ui.lifecycle/loading-keys-screen-did-mount
+ :hardwallet/generate-and-load-key
  (fn [cofx _]
    (hardwallet/generate-and-load-key cofx)))
 

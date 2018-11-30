@@ -108,7 +108,8 @@
 
 (fx/defn load-pairing-screen [{:keys [db] :as cofx}]
   (let [{:keys [password]} (get-in cofx [:db :hardwallet :secrets])]
-    {:db              (assoc-in db [:hardwallet :setup-step] :pairing)}))
+    {:db       (assoc-in db [:hardwallet :setup-step] :pairing)
+     :dispatch ^:flush-dom [:hardwallet/pair]}))
 
 (fx/defn pair [{:keys [db] :as cofx}]
   (let [{:keys [password]} (get-in cofx [:db :hardwallet :secrets])]
@@ -158,13 +159,15 @@
   [{:keys [db] :as cofx}]
   (let [{:keys [pairing]} (get-in cofx [:db :hardwallet :secrets])]
     (fx/merge cofx
-              {:db (assoc-in db [:hardwallet :setup-step] :loading-keys)})))
+              {:db       (assoc-in db [:hardwallet :setup-step] :loading-keys)
+               :dispatch ^:flush-dom [:hardwallet/generate-and-load-key]})))
 
 (fx/defn load-generating-mnemonic-screen
   [{:keys [db] :as cofx}]
   (let [{:keys [pairing]} (get-in cofx [:db :hardwallet :secrets])]
     (fx/merge cofx
-              {:db (assoc-in db [:hardwallet :setup-step] :generating-mnemonic)})))
+              {:db       (assoc-in db [:hardwallet :setup-step] :generating-mnemonic)
+               :dispatch ^:flush-dom [:hardwallet/generate-mnemonic]})))
 
 (fx/defn generate-mnemonic
   [{:keys [db] :as cofx}]
@@ -202,7 +205,8 @@
 
 (fx/defn load-preparing-screen
   [{:keys [db]}]
-  {:db (assoc-in db [:hardwallet :setup-step] :preparing)})
+  {:db       (assoc-in db [:hardwallet :setup-step] :preparing)
+   :dispatch ^:flush-dom [:hardwallet/install-applet-and-init-card]})
 
 (fx/defn initialize-card
   [{:keys [db]}]

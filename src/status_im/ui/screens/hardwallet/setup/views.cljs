@@ -286,8 +286,7 @@
     [react/activity-indicator {:animating true
                                :size      :large}]]])
 
-(defview preparing []
-  {:component-did-mount #(re-frame/dispatch [:hardwallet.ui.lifecycle/preparing-screen-did-mount])}
+(defn- preparing []
   [react/view styles/loading-view-container
    [react/view styles/center-container
     [react/text {:style styles/center-title-text
@@ -303,8 +302,7 @@
     [react/activity-indicator {:animating true
                                :size      :large}]]])
 
-(defview generating-mnemonic []
-  {:component-did-mount #(re-frame/dispatch [:hardwallet.ui.lifecycle/generating-mnemonic-screen-did-mount])}
+(defn- generating-mnemonic []
   [react/view styles/loading-view-container
    [react/view styles/center-container
     [react/text {:style styles/center-title-text
@@ -320,8 +318,7 @@
     [react/activity-indicator {:animating true
                                :size      :large}]]])
 
-(defview loading-keys []
-  {:component-did-mount #(re-frame/dispatch [:hardwallet.ui.lifecycle/loading-keys-screen-did-mount])}
+(defn- loading-keys []
   [react/view styles/loading-view-container
    [react/view styles/center-container
     [react/text {:style styles/center-title-text
@@ -337,8 +334,7 @@
     [react/activity-indicator {:animating true
                                :size      :large}]]])
 
-(defview pairing []
-  {:component-did-mount #(re-frame/dispatch [:hardwallet.ui.lifecycle/pairing-screen-did-mount])}
+(defn- pairing []
   [react/view styles/loading-view-container
    [react/view styles/center-container
     [react/text {:style styles/center-title-text
