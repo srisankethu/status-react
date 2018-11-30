@@ -1083,10 +1083,8 @@
 
 (handlers/register-handler-fx
  :hardwallet.ui/error-button-pressed
- (fn [{:keys [db] :as cofx} _]
-   (fx/merge cofx
-             {:db (assoc-in db [:hardwallet :setup-step] :begin)}
-             (navigation/navigate-to-cofx :hardwallet-connect nil))))
+ (fn [cofx _]
+   (hardwallet/error-button-pressed cofx)))
 
 ;; browser module
 

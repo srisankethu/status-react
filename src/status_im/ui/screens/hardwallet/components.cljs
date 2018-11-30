@@ -45,20 +45,28 @@
          "Close window"]]]]]))
 
 (def step-name
-  {:preparing       {:label     :t/initialization
-                     :number    1
-                     :next-step :secret-keys}
-   :secret-keys     {:label     :t/puk-and-pair-codes
-                     :number    2
-                     :next-step :pairing}
-   :pairing         {:label     :t/pairing
-                     :number    3
-                     :next-step :recovery-phrase}
-   :card-ready      {:label     :t/pairing
-                     :number    3
-                     :next-step :recovery-phrase}
-   :recovery-phrase {:label  :t/recovery-phrase
-                     :number 4}})
+  {:preparing                     {:label     :t/initialization
+                                   :number    1
+                                   :next-step :secret-keys}
+   :secret-keys                   {:label     :t/puk-and-pair-codes
+                                   :number    2
+                                   :next-step :pairing}
+   :pairing                       {:label     :t/pairing
+                                   :number    3
+                                   :next-step :recovery-phrase}
+   :card-ready                    {:label     :t/pairing
+                                   :number    3
+                                   :next-step :recovery-phrase}
+   :generating-mnemonic           {:label  :t/recovery-phrase
+                                   :number 4}
+   :recovery-phrase-confirm-word1 {:label  :t/recovery-phrase
+                                   :number 4}
+   :recovery-phrase-confirm-word2 {:label  :t/recovery-phrase
+                                   :number 4}
+   :loading-keys                  {:label  :t/recovery-phrase
+                                   :number 4}
+   :recovery-phrase               {:label  :t/recovery-phrase
+                                   :number 4}})
 
 (defn- setup-steps [step]
   (let [current-step (step-name step)

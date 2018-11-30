@@ -264,7 +264,7 @@
        [react/text {:style      styles/bottom-button-text
                     :font       :medium
                     :uppercase? true}
-        (i18n/label :t/okay)]]]]))
+        "Try again"]]]]))
 
 (defn- loading-view [{:keys [title-label text-label estimated-time-seconds step-number]}]
   "Generic view with waiting time estimate and loading indicator.

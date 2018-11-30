@@ -99,6 +99,13 @@
 (fx/defn success-button-pressed [cofx]
   (navigation/navigate-to-cofx cofx :home nil))
 
+(fx/defn error-button-pressed [{:keys [db] :as cofx}]
+  (let [return-to-step (get-in db [:hardwallet :return-to-step] :begin)]
+    (fx/merge cofx
+              {:db (assoc-in db [:hardwallet :setup-step] return-to-step)}
+              (when-not return-to-step
+                (navigation/navigate-to-cofx :hardwallet-connect nil)))))
+
 (fx/defn load-pairing-screen [{:keys [db] :as cofx}]
   (let [{:keys [password]} (get-in cofx [:db :hardwallet :secrets])]
     {:db              (assoc-in db [:hardwallet :setup-step] :pairing)}))
@@ -217,6 +224,7 @@
   (log/debug "[hardwallet] install applet and init card error: " error)
   {:db (-> db
            (assoc-in [:hardwallet :setup-step] :error)
+           (assoc-in [:hardwallet :return-to-step] :begin)
            (assoc-in [:hardwallet :setup-error] error))})
 
 (fx/defn on-initialization-success
@@ -245,6 +253,7 @@
   (log/debug "[hardwallet] pairing error: " error)
   {:db (-> db
            (assoc-in [:hardwallet :setup-step] :error)
+           (assoc-in [:hardwallet :return-to-step] :secret-keys)
            (assoc-in [:hardwallet :setup-error] error))})
 
 (fx/defn on-generate-mnemonic-success
@@ -258,6 +267,7 @@
   (log/debug "[hardwallet] generate mnemonic error: " error)
   {:db (-> db
            (assoc-in [:hardwallet :setup-step] :error)
+           (assoc-in [:hardwallet :return-to-step] :card-ready)
            (assoc-in [:hardwallet :setup-error] error))})
 
 (fx/defn on-pin-validated [{:keys [db] :as cofx}]
@@ -331,6 +341,7 @@
   (log/debug "[hardwallet] save mnemonic error: " error)
   {:db (-> db
            (assoc-in [:hardwallet :setup-step] :error)
+           (assoc-in [:hardwallet :return-to-step] :recovery-phrase)
            (assoc-in [:hardwallet :setup-error] error))})
 
 (fx/defn on-generate-and-load-key-success
