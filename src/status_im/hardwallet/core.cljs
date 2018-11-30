@@ -199,9 +199,25 @@
 
 (fx/defn initialize-card
   [{:keys [db]}]
-  {:hardwallet/initialize-card nil
-   ;:db                         (assoc-in db [:hardwallet :setup-step] :preparing)
-})
+  {:hardwallet/initialize-card nil})
+
+(fx/defn install-applet-and-init-card
+  [{:keys [db]}]
+  {:hardwallet/install-applet-and-init-card nil})
+
+(fx/defn on-install-applet-and-init-card-success
+  [{:keys [db]} secrets]
+  (let [secrets' (js->clj secrets :keywordize-keys true)]
+    {:db (-> db
+             (assoc-in [:hardwallet :setup-step] :secret-keys)
+             (assoc-in [:hardwallet :secrets] secrets'))}))
+
+(fx/defn on-install-applet-and-init-card-error
+  [{:keys [db]} error]
+  (log/debug "[hardwallet] install applet and init card error: " error)
+  {:db (-> db
+           (assoc-in [:hardwallet :setup-step] :error)
+           (assoc-in [:hardwallet :setup-error] error))})
 
 (fx/defn on-initialization-success
   [{:keys [db]} secrets]

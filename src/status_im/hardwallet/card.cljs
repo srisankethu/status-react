@@ -38,6 +38,13 @@
         (then #(re-frame/dispatch [:hardwallet.callback/on-initialization-success %]))
         (catch #(re-frame/dispatch [:hardwallet.callback/on-initialization-error (str %)])))))
 
+(defn install-applet-and-init-card []
+  (when config/hardwallet-enabled?
+    (.. keycard
+        installAppletAndInitCard
+        (then #(re-frame/dispatch [:hardwallet.callback/on-install-applet-and-init-card-success %]))
+        (catch #(re-frame/dispatch [:hardwallet.callback/on-install-applet-and-init-card-error (str %)])))))
+
 (defn remove-event-listeners []
   (doseq [event ["keyCardOnConnected" "keyCardOnDisconnected"]]
     (.removeAllListeners event-emitter event)))

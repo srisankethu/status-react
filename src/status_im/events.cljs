@@ -856,6 +856,16 @@
    (hardwallet/on-initialization-error cofx error)))
 
 (handlers/register-handler-fx
+ :hardwallet.callback/on-install-applet-and-init-card-success
+ (fn [cofx [_ secrets]]
+   (hardwallet/on-install-applet-and-init-card-success cofx secrets)))
+
+(handlers/register-handler-fx
+ :hardwallet.callback/on-install-applet-and-init-card-error
+ (fn [cofx [_ error]]
+   (hardwallet/on-install-applet-and-init-card-error cofx error)))
+
+(handlers/register-handler-fx
  :hardwallet.callback/on-pairing-success
  (fn [cofx [_ pairing]]
    (hardwallet/on-pairing-success cofx pairing)))
@@ -937,13 +947,23 @@
 
 (handlers/register-handler-fx
  :hardwallet.ui/begin-setup-button-pressed
+ (fn [_ _]
+   {:ui/show-confirmation {:title               ""
+                           :content             "Setup will erase your card including the keys already stored on your card. Would you like to continue?"
+                           :confirm-button-text "Yes"
+                           :cancel-button-text  "No"
+                           :on-accept           #(re-frame/dispatch [:hardwallet.ui/begin-setup-confirm-button-pressed])
+                           :on-cancel           #()}}))
+
+(handlers/register-handler-fx
+ :hardwallet.ui/begin-setup-confirm-button-pressed
  (fn [cofx _]
    (hardwallet/load-preparing-screen cofx)))
 
 (handlers/register-handler-fx
  :hardwallet.ui.lifecycle/preparing-screen-did-mount
  (fn [cofx _]
-   (hardwallet/initialize-card cofx)))
+   (hardwallet/install-applet-and-init-card cofx)))
 
 (handlers/register-handler-fx
  :hardwallet.ui/pair-card-button-pressed

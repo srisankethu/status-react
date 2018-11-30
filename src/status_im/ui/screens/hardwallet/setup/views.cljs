@@ -298,7 +298,7 @@
      (i18n/label :t/generating-codes-for-pairing)]
     [react/text {:style styles/estimated-time-text}
      ;TODO: move to translations
-     "This will take a few seconds"]]
+     "This could take up to 30 seconds.\n Please hold card connected to the phone"]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])
