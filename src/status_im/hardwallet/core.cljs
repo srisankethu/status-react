@@ -180,8 +180,8 @@
   (when (= (:view-id db) :accounts)
     (let [{:keys [pairing pin]} (get-in db [:hardwallet :secrets])]
       (when (and pairing pin)
-        {:hardwallet/get-whisper-key {:pairing pairing
-                                      :pin     pin}}))))
+        {:hardwallet/get-keys {:pairing pairing
+                               :pin     pin}}))))
 
 (fx/defn on-card-connected
   [{:keys [db] :as cofx} data]
@@ -379,7 +379,7 @@
            (assoc-in [:hardwallet :setup-step] :error)
            (assoc-in [:hardwallet :setup-error] error))})
 
-(fx/defn on-get-whisper-key-success
+(fx/defn on-get-keys-success
   [{:keys [db] :as cofx} data]
   (let [{:keys [whisper-public-key
                 whisper-private-key
@@ -401,7 +401,7 @@
                                :name name))}
               (accounts.login/user-login))))
 
-(fx/defn on-get-whisper-key-error
+(fx/defn on-get-keys-error
   [{:keys [db]} error]
   (log/debug "[hardwallet] get whisper key error: " error)
   {:db (-> db

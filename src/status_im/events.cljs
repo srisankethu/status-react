@@ -909,14 +909,14 @@
    (hardwallet/on-generate-and-load-key-error cofx error)))
 
 (handlers/register-handler-fx
- :hardwallet.callback/on-get-whisper-key-success
+ :hardwallet.callback/on-get-keys-success
  (fn [cofx [_ data]]
-   (hardwallet/on-get-whisper-key-success cofx data)))
+   (hardwallet/on-get-keys-success cofx data)))
 
 (handlers/register-handler-fx
- :hardwallet.callback/on-get-whisper-key-error
+ :hardwallet.callback/on-get-keys-error
  (fn [cofx [_ error]]
-   (hardwallet/on-get-whisper-key-error cofx error)))
+   (hardwallet/on-get-keys-error cofx error)))
 
 (handlers/register-handler-fx
  :hardwallet.callback/on-pin-validated

@@ -57,8 +57,8 @@
  card/generate-and-load-key)
 
 (re-frame/reg-fx
- :hardwallet/get-whisper-key
- card/get-whisper-key)
+ :hardwallet/get-keys
+ card/get-keys)
 
 (re-frame/reg-fx
  :hardwallet/derive-key
