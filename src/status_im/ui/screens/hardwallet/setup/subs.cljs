@@ -19,6 +19,11 @@
                (get-in db [:hardwallet :recovery-phrase :step])])))
 
 (re-frame/reg-sub
+ :hardwallet-recovery-phrase-input-word
+ (fn [db]
+   (get-in db [:hardwallet :recovery-phrase :input-word])))
+
+(re-frame/reg-sub
  :hardwallet-recovery-phrase-confirm-error
  (fn [db]
    (get-in db [:hardwallet :recovery-phrase :confirm-error])))

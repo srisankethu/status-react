@@ -112,9 +112,10 @@
    :text-align :center})
 
 (def center-title-text
-  {:font-size  22
-   :text-align :center
-   :color      colors/black})
+  {:font-size   22
+   :font-weight :bold
+   :text-align  :center
+   :color       colors/black})
 
 (def bottom-container
   {:height           60
@@ -150,11 +151,13 @@
    :text-transform :uppercase})
 
 (def next-button-container
-  {:flex-direction  :row
-   :align-self      :flex-end
-   :width           "100%"
-   :margin-vertical 15
-   :margin-right    21})
+  {:flex-direction   :row
+   :justify-content  :space-between
+   :align-items      :center
+   :width            "100%"
+   :height           52
+   :border-top-width 1
+   :border-color     colors/gray-light})
 
 (def back-and-next-buttons-container
   {:flex-direction  :row
@@ -187,6 +190,18 @@
 (def recovery-phrase-inner-container
   {:align-self :center})
 
+(def check-recovery-phrase-text
+  {:font-size   22
+   :font-weight :bold
+   :text-align  :center
+   :color       colors/gray})
+
+(def recovery-phrase-word-n-text
+  {:font-size   22
+   :font-weight :bold
+   :text-align  :center
+   :color       colors/black})
+
 (def recovery-phrase-description
   {:padding 16})
 
@@ -210,44 +225,69 @@
    :align-items     :center})
 
 (def secret-keys-title-container
-  {:width 292})
+  {:width           292
+   :margin-vertical 25})
 
 (def secret-keys-title-text
-  {:font-size  22
-   :text-align :center
-   :color      colors/black})
+  {:font-size   22
+   :font-weight :bold
+   :text-align  :center
+   :color       colors/black})
+
+(def secret-keys-image-container
+  {:width  120
+   :height 120})
 
 (def puk-code-title-text
   {:font-size   17
+   :font-weight :bold
    :padding-top 12
    :color       colors/black})
 
+(def secret-code-explanation-container
+  {:margin-top    5
+   :margin-bottom 15})
+
 (def puk-code-explanation-text
-  {:font-size   15
-   :width       292
-   :text-align  :center
-   :padding-top 5
-   :color       colors/gray})
+  {:font-size          15
+   :padding-horizontal 32
+   :text-align         :center
+   :padding-top        5
+   :padding-bottom     10
+   :color              colors/gray})
 
 (def puk-code-numbers-container
   {:justify-content :center
    :flex-direction  :row})
 
+(def puk-code-numbers-border-container
+  {:border-bottom-width 2
+   :width               302
+   :text-align          :center
+   ;:justify-content :center
+   ;:align-items :center
+   ;:flex-direction :column
+   ;:padding-bottom      10
+   :border-color        colors/gray-lighter})
+
 (defstyle puk-code-numbers-inner-container
   {:width           "85%"
    :android         {:margin-horizontal 16}
-   :height          64
-   :margin-top      10
+   :height          94
+   ;:margin-top      10
    :align-items     :center
-   :justify-content :center
-   :border-width    1
-   :border-color    colors/gray-light
+   :justify-content :space-between
+   :flex-direction  :column
+   :border-width    2
+   :border-color    colors/gray-lighter
    :border-radius   10})
 
 (def puk-code-text
-  {:font-size  17
-   :text-align :center
-   :color      colors/green})
+  {:font-size      17
+   :font-weight    :bold
+   :padding-bottom 10
+   :text-align     :center
+   :color          colors/green})
 
 ;; card ready
 

@@ -21,71 +21,70 @@
 (defview secret-keys []
   (letsubs [secrets [:hardwallet-secrets]]
     [react/view styles/secret-keys-container
-     [react/scroll-view {:margin-bottom 10}
+     [react/scroll-view
       [react/view styles/secret-keys-inner-container
+       [react/view
+        [react/image {:source (:secret-keys resources/ui)
+                      :style  styles/secret-keys-image-container}]]
        [react/view styles/secret-keys-title-container
-        #_[components/wizard-step 2]
         [react/text {:style           styles/secret-keys-title-text
-                     :number-of-lines 2
-                     :font            :bold}
+                     :number-of-lines 2}
          (i18n/label :t/write-down-and-store-securely)]]
-       [react/text {:style styles/puk-code-title-text
-                    :font  :bold}
-        (i18n/label :t/pin-code)]
-       [react/text {:style styles/puk-code-explanation-text}
-        "Unlocks the card"]
        [react/view styles/puk-code-numbers-container
         [react/view styles/puk-code-numbers-inner-container
-         [react/text {:style styles/puk-code-text
-                      :font  :bold}
+         [react/text {:style styles/puk-code-title-text}
+          (i18n/label :t/pin-code)]
+         [react/view styles/puk-code-numbers-border-container]
+         [react/text {:style styles/puk-code-text}
           (:pin secrets)]]]
-       [react/text {:style styles/puk-code-title-text
-                    :font  :bold}
-        (i18n/label :t/puk-code)]
-       [react/text {:style styles/puk-code-explanation-text}
-        (i18n/label :t/puk-code-explanation)]
+       [react/view styles/secret-code-explanation-container
+        [react/text {:style styles/puk-code-explanation-text}
+         "Unlocks the card"]]
        [react/view styles/puk-code-numbers-container
         [react/view styles/puk-code-numbers-inner-container
-         [react/text {:style styles/puk-code-text
-                      :font  :bold}
+         [react/text {:style styles/puk-code-title-text}
+          (i18n/label :t/puk-code)]
+         [react/view styles/puk-code-numbers-border-container]
+         [react/text {:style styles/puk-code-text}
           (:puk secrets)]]]
-       [react/text {:style styles/puk-code-title-text
-                    :font  :bold}
-        (i18n/label :t/pair-code)]
-       [react/text {:style           styles/puk-code-explanation-text
-                    :number-of-lines 2}
-        (i18n/label :t/pair-code-explanation)]
+       [react/view styles/secret-code-explanation-container
+        [react/text {:style styles/puk-code-explanation-text}
+         (i18n/label :t/puk-code-explanation)]]
        [react/view styles/puk-code-numbers-container
         [react/view styles/puk-code-numbers-inner-container
-         [react/text {:style styles/puk-code-text
-                      :font  :bold}
-          (:password secrets)]]]]]
-     [react/view styles/next-button-container
-      [react/view components.styles/flex]
-      [components.common/bottom-button
-       {:on-press #(re-frame/dispatch [:hardwallet.ui/secret-keys-next-button-pressed])
-        :forward? true}]]]))
+         [react/text {:style styles/puk-code-title-text}
+          (i18n/label :t/pair-code)]
+         [react/view styles/puk-code-numbers-border-container]
+         [react/text {:style styles/puk-code-text}
+          (:password secrets)]]]
+       [react/view styles/secret-code-explanation-container
+        [react/text {:style           styles/puk-code-explanation-text
+                     :number-of-lines 2}
+         (i18n/label :t/pair-code-explanation)]]]
+      [react/view styles/next-button-container
+       [react/view components.styles/flex]
+       [react/view {:margin-right 20}
+        [components.common/bottom-button
+         {:on-press #(re-frame/dispatch [:hardwallet.ui/secret-keys-next-button-pressed])
+          :forward? true}]]]]]))
 
 (defn card-ready []
   [react/view styles/card-ready-container
    [react/view styles/card-ready-inner-container
-    ;[components/wizard-step 3]
-    [react/view styles/center-container
-     [react/text {:style           styles/center-title-text
-                  :number-of-lines 2
-                  :font            :bold}
+    [react/view (assoc styles/center-container :margin-top 68)
+     [react/text {:style styles/center-title-text}
       (i18n/label :t/card-is-paired)]
-     [react/text {:style           styles/estimated-time-text
-                  :number-of-lines 2}
+     [react/text {:style styles/estimated-time-text}
       ;TODO(dmitryn) translate
       "Generate mnemonic"]]
     [react/view]
     [react/view styles/next-button-container
      [react/view components.styles/flex]
-     [components.common/bottom-button
-      {:on-press #(re-frame/dispatch [:hardwallet.ui/generate-mnemonic-button-pressed])
-       :label    "GENERATE MNEMONIC"
-       :forward? true}]]]])
+     [react/view {:margin-right 20}
+      [components.common/bottom-button
+       {:on-press #(re-frame/dispatch [:hardwallet.ui/generate-mnemonic-button-pressed])
+        :label    "GENERATE MNEMONIC"
+        :forward? true}]]]]])
 
 (defview recovery-phrase []
   (letsubs [mnemonic [:hardwallet-mnemonic]]
@@ -115,10 +114,11 @@
            (i18n/label :t/your-recovery-phrase-description)]]]]
        [react/view styles/next-button-container
         [react/view components.styles/flex]
-        [components.common/bottom-button
-         {:on-press #(re-frame/dispatch [:hardwallet.ui/recovery-phrase-next-button-pressed])
-          :label    (i18n/label :t/next)
-          :forward? true}]]])))
+        [react/view {:margin-right 20}
+         [components.common/bottom-button
+          {:on-press #(re-frame/dispatch [:hardwallet.ui/recovery-phrase-next-button-pressed])
+           :label    (i18n/label :t/next)
+           :forward? true}]]]])))
 
 (defview confirm-word-input [error ref step]
   {:component-will-update #(.clear @ref)}
@@ -134,16 +134,16 @@
   ^{:key (str step)}
   (letsubs [width [:dimensions/window-width]
             word [:hardwallet-recovery-phrase-word]
+            input-word [:hardwallet-recovery-phrase-input-word]
             error [:hardwallet-recovery-phrase-confirm-error]
             ref (reagent/atom nil)]
     (let [{:keys [word idx]} word]
       [react/view styles/enter-pair-code-container
        [react/view styles/enter-pair-code-title-container
         [react/view
-         [react/text {:style styles/enter-pair-code-title-text
-                      :font  :bold}
+         [react/text {:style styles/check-recovery-phrase-text}
           (i18n/label :t/check-your-recovery-phrase)]
-         [react/text {:style styles/enter-pair-code-explanation-text}
+         [react/text {:style styles/recovery-phrase-word-n-text}
           (i18n/label :t/word-n {:number (inc idx)})]]
         [react/view (styles/enter-pair-code-input-container width)
          [confirm-word-input error ref step]]]
@@ -154,7 +154,7 @@
           :label    (i18n/label :t/back)}]
         [components.common/bottom-button
          {:on-press  #(re-frame/dispatch [:hardwallet.ui/recovery-phrase-confirm-word-next-button-pressed])
-          :disabled? (empty? word)
+          :disabled? (empty? input-word)
           :forward?  true}]]])))
 
 (defview enter-pair-code []
@@ -175,10 +175,11 @@
          :placeholder       ""}]]]
      [react/view styles/next-button-container
       [react/view components.styles/flex]
-      [components.common/bottom-button
-       {:on-press  #(re-frame/dispatch [:hardwallet.ui/pair-code-next-button-pressed])
-        :disabled? (empty? pair-code)
-        :forward?  true}]]]))
+      [react/view {:margin-right 20}
+       [components.common/bottom-button
+        {:on-press  #(re-frame/dispatch [:hardwallet.ui/pair-code-next-button-pressed])
+         :disabled? (empty? pair-code)
+         :forward?  true}]]]]))
 
 (defn- card-with-button-view
   [{:keys [text-label button-label button-container-style on-press]}]
