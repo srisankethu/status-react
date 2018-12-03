@@ -52,6 +52,6 @@
        [react/touchable-highlight {:on-press #(.openURL react/linking "https://hardwallet.status.im")}
         [react/view styles/product-info-container
          [react/text {:style styles/product-info-text}
-          "Product Information"]
+          (i18n/label :t/product-information)]
          [vector-icons/icon :icons/link {:color           colors/blue
                                          :container-style styles/external-link-icon}]]]]]]))

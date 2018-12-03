@@ -15,7 +15,7 @@
    (when @show?
      [react/view
       [react/text {:style {:padding-bottom 20}}
-       "Signing in"]
+       (i18n/label :t/sign-in-to-status)]
       [react/activity-indicator {:animating true
                                  :size      :large}]])])
 

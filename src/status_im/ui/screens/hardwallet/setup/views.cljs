@@ -75,15 +75,13 @@
      [react/text {:style styles/center-title-text}
       (i18n/label :t/card-is-paired)]
      [react/text {:style styles/estimated-time-text}
-      ;TODO(dmitryn) translate
-      "Generate mnemonic"]]
+      (i18n/label :t/next-step-generating-mnemonic)]]
     [react/view]
     [react/view styles/next-button-container
      [react/view components.styles/flex]
      [react/view {:margin-right 20}
       [components.common/bottom-button
-       {:on-press #(re-frame/dispatch [:hardwallet.ui/generate-mnemonic-button-pressed])
-        :label    "GENERATE MNEMONIC"
+       {:on-press #(re-frame/dispatch [:hardwallet.ui/card-ready-next-button-pressed])
         :forward? true}]]]]])
 
 (defview recovery-phrase []
@@ -108,7 +106,6 @@
           [react/view {:style {:width            1
                                :background-color colors/gray-lighter}}]
           [seed.views/six-words (subvec mnemonic-vec 6 12)]]
-         ;TODO(dmitryn) translate
          [react/view styles/recovery-phrase-description
           [react/text {:style styles/recovery-phrase-description-text}
            (i18n/label :t/your-recovery-phrase-description)]]]]
@@ -212,12 +209,12 @@
       (i18n/label :t/card-setup-prepare-text)]]]
    [react/view styles/remaining-steps-container
     [react/text {:style styles/remaining-steps-text}
-     "Remaining steps"]
+     (i18n/label :t/remaining-steps)]
     [react/view {:margin-top 4}
-     (for [[number text] [["1" "Initialization of the card"]
-                          ["2" "PUK and pairing codes displayed"]
-                          ["3" "Device pairing"]
-                          ["4" "Recovery phrase"]]]
+     (for [[number text] [["1" (i18n/label :t/initialization-of-the-card)]
+                          ["2" (i18n/label :t/puk-and-pairing-codes-displayed)]
+                          ["3" (i18n/label :t/device-pairing)]
+                          ["4" (i18n/label :t/recovery-phrase)]]]
        ^{:key number} [react/view styles/remaining-step-row
                        [react/view styles/remaining-step-row-text
                         [react/text {:style {:color colors/black}}
@@ -259,7 +256,7 @@
                     :style  styles/hardwallet-card-image}]
       [react/view styles/center-text-container
        [react/text {:style styles/center-text}
-        "Something went wrong\n"]
+        (i18n/label :t/something-went-wrong)]
        [react/text {:style styles/center-text}
         error]]]
      [react/touchable-highlight
@@ -268,14 +265,13 @@
        [react/text {:style      styles/bottom-button-text
                     :font       :medium
                     :uppercase? true}
-        "Try again"]]]]))
+        (i18n/label :t/try-again)]]]]))
 
 (defn- loading-view [{:keys [title-label text-label estimated-time-seconds step-number]}]
   "Generic view with waiting time estimate and loading indicator.
   Used by 'Prepare', 'Pairing', 'Completing' screens"
   [react/view styles/loading-view-container
    [react/view styles/center-container
-    #_[components/wizard-step step-number]
     [react/text {:style styles/center-title-text
                  :font  :bold}
      (i18n/label title-label)]
@@ -284,8 +280,7 @@
                    :number-of-lines 2}
        (i18n/label text-label)])
     [react/text {:style styles/estimated-time-text}
-     ;TODO: move to translations
-     "This will take a few seconds"]]
+     (i18n/label :t/this-will-take-few-seconds)]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])
@@ -300,8 +295,7 @@
                  :number-of-lines 2}
      (i18n/label :t/generating-codes-for-pairing)]
     [react/text {:style styles/estimated-time-text}
-     ;TODO: move to translations
-     "This could take up to 30 seconds.\n Please hold card connected to the phone"]]
+     (i18n/label :t/taking-long-hold-phone-connected)]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])
@@ -312,12 +306,8 @@
     [react/text {:style styles/center-title-text
                  :font  :bold}
      (i18n/label :t/generating-mnemonic)]
-    ;[react/text {:style           styles/generating-codes-for-pairing-text
-    ;             :number-of-lines 2}
-    ; (i18n/label :t/generating-codes-for-pairing)]
     [react/text {:style styles/estimated-time-text}
-     ;TODO: move to translations
-     "This will take a few seconds"]]
+     (i18n/label :t/this-will-take-few-seconds)]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])
@@ -327,13 +317,12 @@
    [react/view styles/center-container
     [react/text {:style styles/center-title-text
                  :font  :bold}
-     "Finishing card setup"]
+     (i18n/label :t/finishing-card-setup)]
     [react/text {:style           styles/generating-codes-for-pairing-text
                  :number-of-lines 2}
-     "> Loading keys to the card\n> Generating account"]
+     (i18n/label :t/finishing-card-setup-steps)]
     [react/text {:style styles/estimated-time-text}
-     ;TODO: move to translations
-     "This will take a few seconds"]]
+     (i18n/label :t/this-will-take-few-seconds)]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])
@@ -344,12 +333,8 @@
     [react/text {:style styles/center-title-text
                  :font  :bold}
      (i18n/label :t/pairing-card)]
-    ;[react/text {:style           styles/generating-codes-for-pairing-text
-    ;             :number-of-lines 2}
-    ; (i18n/label :t/generating-codes-for-pairing)]
     [react/text {:style styles/estimated-time-text}
-     ;TODO: move to translations
-     "This will take a few seconds"]]
+     (i18n/label :t/this-will-take-few-seconds)]]
    [react/view styles/waiting-indicator-container
     [react/activity-indicator {:animating true
                                :size      :large}]]])

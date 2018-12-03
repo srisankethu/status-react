@@ -949,9 +949,9 @@
  :hardwallet.ui/begin-setup-button-pressed
  (fn [_ _]
    {:ui/show-confirmation {:title               ""
-                           :content             "Setup will erase your card including the keys already stored on your card. Would you like to continue?"
-                           :confirm-button-text "Yes"
-                           :cancel-button-text  "No"
+                           :content             (i18n/label :t/begin-keycard-setup-confirmation-text)
+                           :confirm-button-text (i18n/label :t/yes)
+                           :cancel-button-text  (i18n/label :t/no)
                            :on-accept           #(re-frame/dispatch [:hardwallet.ui/begin-setup-confirm-button-pressed])
                            :on-cancel           #()}}))
 
@@ -1075,7 +1075,7 @@
      {:db (update-in db [:hardwallet :pin step] pop)})))
 
 (handlers/register-handler-fx
- :hardwallet.ui/generate-mnemonic-button-pressed
+ :hardwallet.ui/card-ready-next-button-pressed
  (fn [cofx _]
    (hardwallet/load-generating-mnemonic-screen cofx)))
 
