@@ -147,8 +147,11 @@
           (i18n/label :t/word-n {:number (inc idx)})]]
         [react/view (styles/enter-pair-code-input-container width)
          [confirm-word-input error ref step]]]
-       [react/view styles/next-button-container
-        [react/view components.styles/flex]
+       [react/view styles/back-and-next-buttons-container
+        [components.common/bottom-button
+         {:on-press #(re-frame/dispatch [:hardwallet.ui/recovery-phrase-confirm-word-back-button-pressed])
+          :back?    true
+          :label    (i18n/label :t/back)}]
         [components.common/bottom-button
          {:on-press  #(re-frame/dispatch [:hardwallet.ui/recovery-phrase-confirm-word-next-button-pressed])
           :disabled? (empty? word)

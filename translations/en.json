@@ -445,6 +445,7 @@
     "currency-display-name-thb": "Thailand Baht",
     "transactions-filter-type": "Type",
     "next": "Next",
+    "back": "Back",
     "recent": "Recent statuses",
     "wallet-send-token": "Send {{symbol}}",
     "bootnodes-enabled": "Bootnodes enabled",

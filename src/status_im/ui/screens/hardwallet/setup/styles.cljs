@@ -156,6 +156,11 @@
    :margin-vertical 15
    :margin-right    21})
 
+(def back-and-next-buttons-container
+  {:flex-direction  :row
+   :justify-content :space-between
+   :margin-vertical 15})
+
 ;; prepare step
 
 (def center-container

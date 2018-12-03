@@ -995,6 +995,11 @@
    (hardwallet/recovery-phrase-confirm-word cofx)))
 
 (handlers/register-handler-fx
+ :hardwallet.ui/recovery-phrase-confirm-word-back-button-pressed
+ (fn [{:keys [db]} _]
+   {:db (assoc-in db [:hardwallet :setup-step] :recovery-phrase)}))
+
+(handlers/register-handler-fx
  :hardwallet.ui/recovery-phrase-confirm-word-input-changed
  (fn [{:keys [db]} [_ input]]
    {:db (assoc-in db [:hardwallet :recovery-phrase :input-word] input)}))
