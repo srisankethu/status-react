@@ -23,8 +23,7 @@
    :height          60
    :border-radius   10
    :border-width    1
-   :border-color    colors/blue
-   :border-style    :dashed})
+   :border-color    colors/blue-transparent-30})
 
 (def maintain-card-text
   {:font-size          12
