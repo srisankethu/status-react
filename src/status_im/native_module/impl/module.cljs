@@ -93,6 +93,10 @@
   (when status
     (call-module #(.login status address password on-result))))
 
+(defn login-with-keycard [wallet-address whisper-private-key on-result]
+  (when status
+    (call-module #(.loginWithKeycard status wallet-address whisper-private-key on-result))))
+
 (defn set-soft-input-mode [mode]
   (when status
     (call-module #(.setSoftInputMode status mode))))

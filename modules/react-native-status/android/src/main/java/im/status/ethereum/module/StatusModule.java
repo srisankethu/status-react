@@ -392,6 +392,26 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
     }
 
     @ReactMethod
+    public void loginWithKeycard(final String walletAddress, final String whisperPrivateKey, final Callback callback) {
+        Log.d(TAG, "loginWithKeycard");
+        if (!checkAvailability()) {
+            callback.invoke(false);
+            return;
+        }
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                  String result = Statusgo.LoginWithKeycard(walletAddress, whisperPrivateKey);
+
+                  callback.invoke(result);
+            }
+        };
+
+        StatusThreadPoolExecutor.getInstance().execute(r);
+    }
+
+    @ReactMethod
     public void createAccount(final String password, final Callback callback) {
         Log.d(TAG, "createAccount");
         if (!checkAvailability()) {
@@ -662,7 +682,7 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         Log.d(TAG, "AppStateChange: " + type);
         Statusgo.AppStateChange(type);
     }
-    
+
     private static String uniqueID = null;
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
 

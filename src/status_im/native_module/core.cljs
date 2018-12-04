@@ -18,6 +18,10 @@
 (defn login [address password callback]
   (native-module/login address password callback))
 
+(defn login-with-keycard
+  [{:keys [whisper-private-key wallet-address on-result]}]
+  (native-module/login-with-keycard wallet-address whisper-private-key on-result))
+
 (defn set-soft-input-mode [mode]
   (native-module/set-soft-input-mode mode))
 
