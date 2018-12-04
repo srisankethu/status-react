@@ -45,8 +45,8 @@
    :height 205})
 
 (def phone-nfc-off-image
-  {:width  137
-   :height 150})
+  {:width  301
+   :height 180})
 
 (def hold-card-text
   {:width        186
