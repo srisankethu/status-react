@@ -31,6 +31,7 @@
 
 ;; ACCENT BLUE
 (def blue "#4360df") ;; Accent blue, used as main wallet color, and ios home add button
+(def blue-transparent-30 (alpha blue 0.3)) ;; Accent blue, used as main wallet color, and ios home add button
 ;; LIGHT BLUE
 (def blue-light "#ECEFFC") ;; Light Blue
 (def gray-background blue-light) ;; TODO (andrey) should be refactored later by Dmitry
@@ -40,6 +41,7 @@
 
 ;; GREEN
 (def green "#44d058") ;; icon for successful inboud transaction
+(def green-transparent-10 (alpha green 0.1)) ;; icon for successful inboud transaction
 
 (def chat-colors ["#fa6565"
                   "#7cda00"

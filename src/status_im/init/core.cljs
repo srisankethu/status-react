@@ -65,15 +65,17 @@
              :network/listen-to-network-status               nil
              :network/listen-to-connection-status            nil
              :hardwallet/check-nfc-support                   nil
-             :hardwallet/check-nfc-enabled                   nil}
+             :hardwallet/check-nfc-enabled                   nil
+             :hardwallet/start-module                        nil
+             :hardwallet/register-card-events                nil}
             (initialize-keychain)))
 
 (fx/defn initialize-app-db
   "Initialize db to initial state"
-  [{{:keys [status-module-initialized? view-id hardwallet
-            network-status network peers-count peers-summary device-UUID]
+  [{{:keys      [status-module-initialized? view-id hardwallet
+                 network-status network peers-count peers-summary device-UUID]
      :node/keys [status]
-     :or   {network (get app-db :network)}} :db}]
+     :or        {network (get app-db :network)}} :db}]
   {:db (assoc app-db
               :contacts/contacts {}
               :network-status network-status
@@ -82,9 +84,9 @@
               :status-module-initialized? (or platform/ios? js/goog.DEBUG status-module-initialized?)
               :node/status status
               :network network
+              :hardwallet hardwallet
               :device-UUID device-UUID
-              :view-id view-id
-              :hardwallet (select-keys hardwallet [:nfc-enabled? :nfc-supported?]))})
+              :view-id view-id)})
 
 (fx/defn initialize-app
   [cofx encryption-key]
@@ -152,7 +154,8 @@
   (let [{:universal-links/keys [url]
          :keys [accounts/accounts accounts/create contacts/contacts networks/networks
                 network network-status peers-count peers-summary view-id navigation-stack
-                pairing/installations status-module-initialized? device-UUID semaphores]
+                pairing/installations status-module-initialized? device-UUID semaphores
+                hardwallet]
          :node/keys [status]
          :or   {network (get app-db :network)}} db
         current-account (get accounts address)
@@ -174,6 +177,7 @@
                         :peers-count peers-count
                         :device-UUID device-UUID
                         :semaphores semaphores
+                        :hardwallet hardwallet
                         :web3 web3)
            (= view-id :create-account)
            (assoc-in [:accounts/create :step] :enter-name))}))
@@ -201,6 +205,10 @@
   (= (get-in cofx [:db :view-id])
      :create-account))
 
+(defn finishing-hardwallet-setup? [cofx]
+  (= (get-in cofx [:db :view-id])
+     :hardwallet-success))
+
 (fx/defn initialize-account [{:keys [db web3] :as cofx} address]
   (fx/merge cofx
             {:web3/set-default-account    [web3 address]
@@ -219,7 +227,8 @@
             #(when-not platform/desktop?
                (initialize-wallet %))
             (accounts.update/update-sign-in-time)
-            #(when-not (creating-account? %)
+            #(when-not (or (creating-account? %)
+                           (finishing-hardwallet-setup? %))
                (login-only-events % address))))
 
 (re-frame/reg-fx
