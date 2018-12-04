@@ -210,7 +210,7 @@
    [react/view styles/remaining-steps-container
     [react/text {:style styles/remaining-steps-text}
      (i18n/label :t/remaining-steps)]
-    [react/view {:margin-top 4}
+    [react/view {:margin-top 5}
      (for [[number text] [["1" (i18n/label :t/initialization-of-the-card)]
                           ["2" (i18n/label :t/puk-and-pairing-codes-displayed)]
                           ["3" (i18n/label :t/device-pairing)]

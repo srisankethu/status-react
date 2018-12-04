@@ -325,11 +325,11 @@
    :margin-bottom 20})
 
 (def card-is-empty-prepare-text
-  {:margin-top         10
+  {:margin-top         20
    :padding-horizontal 40})
 
 (def remaining-steps-container
-  {:margin-top     42
+  {:margin-top     70
    :margin-left    16
    :flex           1
    :width          "90%"
@@ -341,7 +341,7 @@
 
 (def remaining-step-row
   {:flex-direction :row
-   :margin-top     7})
+   :margin-top     9})
 
 (def remaining-step-row-text
   {:border-width    1
