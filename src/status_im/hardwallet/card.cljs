@@ -22,7 +22,7 @@
 
 (defn open-nfc-settings []
   (when platform/android?
-    (.openNfcSettings keycard #())))
+    (.openNfcSettings keycard)))
 
 (defn start []
   (when config/hardwallet-enabled?
