@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -404,6 +402,8 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         Runnable r = new Runnable() {
             @Override
             public void run() {
+                 // temporary disabled
+
                  // String result = Statusgo.LoginWithKeycard(walletAddress, whisperPrivateKey);
 
                  // callback.invoke(result);
@@ -796,5 +796,4 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
     constants.put("is24Hour", this.is24Hour());
     return constants;
   }
-
 }
