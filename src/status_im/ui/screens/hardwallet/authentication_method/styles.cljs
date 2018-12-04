@@ -14,8 +14,8 @@
    :justify-content  :center})
 
 (def lock-image
-  {:align-items     :center
-   :justify-content :center})
+  {:width  160
+   :height 160})
 
 (def choose-authentication-method
   {:flex-direction  :column
