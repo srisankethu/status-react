@@ -192,44 +192,42 @@
    [react/touchable-highlight
     {:on-press on-press}
     [react/view (merge styles/bottom-button-container button-container-style)
-     [react/text {:style      styles/bottom-button-text
-                  :font       :medium
-                  :uppercase? true}
+     [react/text {:style styles/bottom-button-text}
       (i18n/label button-label)]]]])
 
 (defn begin []
   [react/view styles/card-blank-container
-   [react/view styles/hardwallet-card-image-container
-    [react/text {:style styles/card-is-empty-text}
-     (i18n/label :t/card-is-blank)]
-    [react/image {:source (:hardwallet-card resources/ui)
-                  :style  styles/hardwallet-card-image}]
-    [react/view styles/card-is-empty-prepare-text
-     [react/text {:style styles/center-text}
-      (i18n/label :t/card-setup-prepare-text)]]]
-   [react/view styles/remaining-steps-container
-    [react/text {:style styles/remaining-steps-text}
-     (i18n/label :t/remaining-steps)]
-    [react/view {:margin-top 5}
-     (for [[number text] [["1" (i18n/label :t/initialization-of-the-card)]
-                          ["2" (i18n/label :t/puk-and-pairing-codes-displayed)]
-                          ["3" (i18n/label :t/device-pairing)]
-                          ["4" (i18n/label :t/recovery-phrase)]]]
-       ^{:key number} [react/view styles/remaining-step-row
-                       [react/view styles/remaining-step-row-text
-                        [react/text {:style {:color colors/black}}
-                         number]]
-                       [react/view styles/remaining-step-row-text2
-                        [react/text {:style {:color colors/black}}
-                         text]]])]]
-   [react/view styles/bottom-container
-    [react/touchable-highlight
-     {:on-press #(re-frame/dispatch [:hardwallet.ui/begin-setup-button-pressed])}
-     [react/view styles/begin-button-container
-      [react/text {:style      styles/bottom-button-text
-                   :font       :medium
-                   :uppercase? true}
-       (i18n/label :t/begin-set-up)]]]]])
+   [react/scroll-view
+    [react/view styles/hardwallet-card-image-container
+     [react/text {:style styles/card-is-empty-text}
+      (i18n/label :t/card-is-blank)]
+     [react/view {:margin-top 15}
+      [react/image {:source (:hardwallet-card resources/ui)
+                    :style  styles/hardwallet-card-image}]]
+     [react/view styles/card-is-empty-prepare-text
+      [react/text {:style styles/center-text}
+       (i18n/label :t/card-setup-prepare-text)]]]
+    [react/view styles/remaining-steps-container
+     [react/text {:style styles/remaining-steps-text}
+      (i18n/label :t/remaining-steps)]
+     [react/view {:margin-bottom 25}
+      (for [[number text] [["1" (i18n/label :t/initialization-of-the-card)]
+                           ["2" (i18n/label :t/puk-and-pairing-codes-displayed)]
+                           ["3" (i18n/label :t/device-pairing)]
+                           ["4" (i18n/label :t/recovery-phrase)]]]
+        ^{:key number} [react/view styles/remaining-step-row
+                        [react/view styles/remaining-step-row-text
+                         [react/text {:style {:color colors/black}}
+                          number]]
+                        [react/view styles/remaining-step-row-text2
+                         [react/text {:style {:color colors/black}}
+                          text]]])]]
+    [react/view styles/bottom-container
+     [react/touchable-highlight
+      {:on-press #(re-frame/dispatch [:hardwallet.ui/begin-setup-button-pressed])}
+      [react/view styles/begin-button-container
+       [react/text {:style styles/bottom-button-text}
+        (i18n/label :t/begin-set-up)]]]]]])
 
 (defn pair []
   [card-with-button-view {:text-label     :t/pair-card-question

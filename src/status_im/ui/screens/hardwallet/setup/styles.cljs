@@ -74,7 +74,7 @@
   {:opacity opacity})
 
 (def hardwallet-card-image-container
-  {:margin-top  24
+  {:margin-top  47
    :flex        1
    :align-items :center})
 
@@ -140,7 +140,7 @@
    :justify-content  :center
    :flex-direction   :row
    :width            160
-   :height           44
+   :height           42
    :border-radius    10
    :margin-bottom    1})
 
@@ -325,11 +325,11 @@
    :margin-bottom 20})
 
 (def card-is-empty-prepare-text
-  {:margin-top         20
+  {:margin-top         25
    :padding-horizontal 40})
 
 (def remaining-steps-container
-  {:margin-top     70
+  {:margin-top     55
    :margin-left    16
    :flex           1
    :width          "90%"
@@ -341,7 +341,7 @@
 
 (def remaining-step-row
   {:flex-direction :row
-   :margin-top     9})
+   :margin-top     15})
 
 (def remaining-step-row-text
   {:border-width    1
