@@ -16,7 +16,7 @@
    {:on-press #(re-frame/dispatch [:hardwallet.ui/hold-card-button-pressed])}
    [react/view styles/nfc-disabled-container
     [react/view
-     [react/image {:source (:phone-nfc-on resources/ui)
+     [react/image {:source (:hold-card-animation resources/ui)
                    :style  styles/phone-nfc-on-image}]]
     [react/view styles/turn-nfc-text-container
      [react/text {:style           styles/status-hardwallet-text
