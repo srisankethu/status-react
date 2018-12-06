@@ -14,6 +14,7 @@
 (def i18n                   (js/require "react-native-i18n"))
 (def desktop-linking        (.-DesktopLinking (.-NativeModules react-native)))
 (def desktop-menu           (js/require "react-native-desktop-menu"))
+(def desktop-shortcuts      (js/require "react-native-desktop-shortcuts"))
 
 (def react-native-firebase  #js {})
 (def nfc-manager            #js {})
