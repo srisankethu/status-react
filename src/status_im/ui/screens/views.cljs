@@ -32,14 +32,14 @@
             [status-im.ui.screens.wallet.send.views :as send.views
              :refer [send-transaction send-transaction-modal sign-message-modal]]
             [status-im.ui.screens.wallet.choose-recipient.views :refer [choose-recipient]]
-            [status-im.ui.screens.wallet.request.views :refer [request-transaction send-transaction-request]]
+            [status-im.ui.screens.wallet.request.views :refer [wallet-request-contacts-list request-transaction send-transaction-request]]
             [status-im.ui.screens.wallet.components.views :as wallet.components]
             [status-im.ui.screens.wallet.onboarding.views :as wallet.onboarding]
             [status-im.ui.screens.wallet.transaction-fee.views :as wallet.transaction-fee]
             [status-im.ui.screens.wallet.settings.views :as wallet-settings]
             [status-im.ui.screens.wallet.transactions.views :as wallet-transactions]
             [status-im.ui.screens.wallet.transaction-sent.views :refer [transaction-sent transaction-sent-modal]]
-            [status-im.ui.screens.wallet.components.views :refer [contact-code recent-recipients recipient-qr-code]]
+            [status-im.ui.screens.wallet.components.views :refer [recipient-qr-code]]
             [status-im.ui.screens.network-settings.views :refer [network-settings]]
             [status-im.ui.screens.network-settings.network-details.views :refer [network-details]]
             [status-im.ui.screens.network-settings.edit-network.views :refer [edit-network]]
@@ -228,9 +228,8 @@
            :collectibles-list            collectibles-list
            :wallet-onboarding-setup      wallet.onboarding/screen
            :wallet-send-transaction-chat send-transaction
-           :contact-code                 contact-code
            :send-transaction-stack       {:screens {:wallet-send-transaction send-transaction
-                                                    :recent-recipients       recent-recipients
+                                                    :recent-recipients       wallet-request-contacts-list
                                                     :wallet-transaction-sent transaction-sent
                                                     :recipient-qr-code       recipient-qr-code
                                                     :wallet-choose-amount    send.views/choose-amount-token
@@ -241,7 +240,7 @@
            :request-transaction-stack    {:screens {:wallet-request-transaction      request-transaction
                                                     :wallet-send-transaction-request send-transaction-request
                                                     :wallet-request-assets           wallet.components/request-assets
-                                                    :recent-recipients               recent-recipients}
+                                                    :recent-recipients               wallet-request-contacts-list}
                                           :config  {:headerMode "none"}}
            :unsigned-transactions        wallet-transactions/transactions
            :transactions-history         wallet-transactions/transactions
@@ -324,7 +323,6 @@
     :add-participants-toggle-list add-participants-toggle-list
     :contact-toggle-list contact-toggle-list
     :group-chat-profile profile.group-chat/group-chat-profile
-    :contact-code contact-code
     [react/view [react/text (str "Unknown view: " view-id)]]))
 
 (defonce rand-label (rand/id))
