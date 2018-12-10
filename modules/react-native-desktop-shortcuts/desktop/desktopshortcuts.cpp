@@ -51,17 +51,18 @@ bool DesktopShortcuts::eventFilter(QObject* obj, QEvent* event) {
     if (ke->modifiers() & Qt::ShiftModifier) {
       modifier += "Shift+";
     }
-    else if (ke->modifiers() & Qt::ControlModifier) {
+    if (ke->modifiers() & Qt::ControlModifier) {
       modifier += "Ctrl+";
     }
-    else if (ke->modifiers() & Qt::AltModifier) {
+    if (ke->modifiers() & Qt::AltModifier) {
       modifier += "Alt+";
     }
-    else if (ke->modifiers() & Qt::MetaModifier) {
+    if (ke->modifiers() & Qt::MetaModifier) {
       modifier += "Meta+";
     }
     QString key = QKeySequence(ke->key()).toString();
 
+    qCDebug(DESKTOPSHORTCUTS) << "### arrow " << key;
     if (registeredShortcuts.contains(modifier+key)) {
       emit shortcutInvoked(modifier+key);
     }
