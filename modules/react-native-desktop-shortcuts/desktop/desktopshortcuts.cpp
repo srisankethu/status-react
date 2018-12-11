@@ -38,7 +38,7 @@ QList<ModuleMethod *> DesktopShortcuts::methodsToExport() {
 QVariantMap DesktopShortcuts::constantsToExport() { return QVariantMap(); }
 
 void DesktopShortcuts::registerShortcuts(const QStringList& shortcuts) {
-  //qCDebug(DESKTOPSHORTCUTS) << "registerShortcuts" << shortcuts;
+  //qCDebug(DESKTOPSHORTCUTS) << "registerShortcuts" << shortcuts << " " << shortcuts.size();
   this->registeredShortcuts = shortcuts;
 }
 
@@ -62,12 +62,14 @@ bool DesktopShortcuts::eventFilter(QObject* obj, QEvent* event) {
     }
     QString key = QKeySequence(ke->key()).toString();
 
-    qCDebug(DESKTOPSHORTCUTS) << "### arrow " << key;
+    //qCDebug(DESKTOPSHORTCUTS) << "### arrow " << key;
     if (registeredShortcuts.contains(modifier+key)) {
       emit shortcutInvoked(modifier+key);
+      return true;
     }
-
-    return false;
+    else {
+      return false;
+    }
   }
   else {
     return QObject::eventFilter(obj, event);
@@ -75,8 +77,7 @@ bool DesktopShortcuts::eventFilter(QObject* obj, QEvent* event) {
 }
 
 void DesktopShortcuts::onShortcutInvoked(const QString& shortcut) {
-  //qCDebug(DESKTOPSHORTCUTS) << "onShortcutInvoked " << shortcut;
+  //qCDebug(DESKTOPSHORTCUTS) << "onShortcutInvoked " << shortcut << " " << registeredShortcuts.size();
   bridge->eventDispatcher()->sendDeviceEvent("shortcutInvoked", QVariantList{shortcut});
-  //bridge->invokePromiseCallback(registeredShortcuts.value(shortcut), QVariantList{});
 }
 
