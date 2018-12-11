@@ -76,6 +76,22 @@
      [react/view
       [react/text {:style styles/pair-this-device-title} (i18n/label :t/sync-all-devices)]]]]])
 
+(defn your-device [installation-id]
+  [react/view {:style styles/installation-item}
+   [react/view {:style (styles/pairing-button true)}
+    [icons/icon (if utils.platform/desktop?
+                  :icons/desktop
+                  :icons/mobile)
+     (icon-style (styles/pairing-button-icon true))]]
+   [react/view {:style styles/pairing-actions-text}
+    [react/view
+     [react/text {:style styles/installation-item-name-text}
+      (str
+       (gfycat/generate-gfy installation-id)
+       " ("
+       (i18n/label :t/you)
+       ")")]]]])
+
 (defn render-row [{:keys [device-type enabled? installation-id]}]
   [react/touchable-highlight
    {:accessibility-label :installation-item}
@@ -95,21 +111,24 @@
                     :value           enabled?
                     :on-value-change (partial toggle-enabled! installation-id enabled?)}]]]])
 
-(defn render-rows [installations]
+(defn render-rows [installation-id installations]
   [react/scroll-view {:style styles/wrapper}
-   [list/flat-list {:data               installations
-                    :default-separator? false
-                    :key-fn             :installation-id
-                    :render-fn          render-row}]])
+   [your-device installation-id]
+   (when (seq installations)
+     [list/flat-list {:data               installations
+                      :default-separator? false
+                      :key-fn             :installation-id
+                      :render-fn          render-row}])])
 
-(defn installations-list [installations]
+(defn installations-list [installation-id installations]
   [react/view {:style styles/installation-list}
    [react/view {:style styles/paired-devices-title}
     [react/text (i18n/label :t/paired-devices)]]
-   (render-rows installations)])
+   (render-rows installation-id installations)])
 
 (views/defview installations []
-  (views/letsubs [installations [:pairing/installations]]
+  (views/letsubs [installation-id [:pairing/installation-id]
+                  installations [:pairing/installations]]
     [react/view {:flex 1}
      [status-bar/status-bar]
      [toolbar/toolbar {}
@@ -117,6 +136,5 @@
       [toolbar/content-title (i18n/label :t/devices)]]
      [react/scroll-view {:style {:background-color :white}}
       [pair-this-device]
-      (when (seq installations)
-        [installations-list installations])]
+      [installations-list installation-id installations]]
      (when (seq installations) [footer])]))

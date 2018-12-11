@@ -96,7 +96,8 @@
               (not (get-in db [:pairing/installations installation-id])))
           (fx/merge cofx
                     (upsert-installation new-installation)
-                    #(when-not (get-in % [:db :pairing/prompt-user-pop-up])
+                    #(when-not (or (get-in % [:db :pairing/prompt-user-pop-up])
+                                   (= :installations (:view-id db)))
                        (prompt-user-on-new-installation %))))))))
 
 (defn sync-installation-account-message [{:keys [db]}]
