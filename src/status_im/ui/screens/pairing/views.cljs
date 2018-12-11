@@ -2,6 +2,7 @@
   (:require-macros [status-im.utils.views :as views])
   (:require [re-frame.core :as re-frame]
             [status-im.i18n :as i18n]
+            [reagent.core :as reagent]
             [status-im.utils.config :as config]
             [status-im.ui.screens.main-tabs.styles :as main-tabs.styles]
             [status-im.ui.components.colors :as colors]
@@ -18,6 +19,8 @@
             [status-im.ui.screens.profile.components.views :as profile.components]
             [status-im.ui.screens.pairing.styles :as styles]))
 
+(def syncing (reagent/atom false))
+
 (defn icon-style [{:keys [width height] :as style}]
   (if utils.platform/desktop?
     {:container-style {:width width
@@ -27,6 +30,10 @@
     style))
 
 (defn synchronize-installations! []
+  (reset! syncing true)
+  ;; Currently we don't know how long it takes, so we just disable for 10s, to avoid
+  ;; spamming
+  (js/setTimeout #(reset! syncing false) 10000)
   (re-frame/dispatch [:pairing.ui/synchronize-installation-pressed]))
 
 (defn pair! []
@@ -43,14 +50,17 @@
     (disable-installation! installation-id)
     (enable-installation! installation-id)))
 
-(defn footer []
-  [react/touchable-highlight {:on-press synchronize-installations!
+(defn footer [syncing]
+  [react/touchable-highlight {:on-press (when-not @syncing
+                                          synchronize-installations!)
                               :style main-tabs.styles/tabs-container}
    [react/view
     {:style styles/footer-content}
     [react/text
      {:style styles/footer-text}
-     (i18n/label :t/sync-all-devices)]]])
+     (if @syncing
+       (i18n/label :t/syncing-devices)
+       (i18n/label :t/sync-all-devices))]]])
 
 (defn pair-this-device []
   [react/touchable-highlight {:on-press pair!
@@ -74,7 +84,10 @@
       [icons/icon :icons/wnode (icon-style (styles/pairing-button-icon true))]]]
     [react/view {:style styles/pairing-actions-text}
      [react/view
-      [react/text {:style styles/pair-this-device-title} (i18n/label :t/sync-all-devices)]]]]])
+      [react/text {:style styles/pair-this-device-title}
+       (if @syncing
+         (i18n/label :t/syncing-devices)
+         (i18n/label :t/sync-all-devices))]]]]])
 
 (defn your-device [installation-id]
   [react/view {:style styles/installation-item}
@@ -137,4 +150,4 @@
      [react/scroll-view {:style {:background-color :white}}
       [pair-this-device]
       [installations-list installation-id installations]]
-     (when (seq installations) [footer])]))
+     (when (seq installations) [footer syncing])]))

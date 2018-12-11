@@ -13,6 +13,7 @@
     "syncing-enabled": "Syncing enabled",
     "syncing-disabled": "Syncing disabled",
     "sync-all-devices": "Sync all devices",
+    "syncing-devices": "Syncing...",
     "paired-devices": "Paired devices",
     "pairing-new-installation-detected-title": "New device detected",
     "pairing-new-installation-detected-content": "A new device has been detected.\nIn order to use your devices correctly, it's important to pair and enable them before using them.\nPlease go to the device section under settings to pair your devices.",
