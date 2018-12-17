@@ -492,23 +492,23 @@ Example:
            {:color        colors/blue-light
             :font-size    12
             :bottom-value -3}]])
-       [react/view {:style {:border-radius 8
-                            :background-color colors/gray-light
-                            :padding-vertical 16
+       [react/view {:style {:border-radius      8
+                            :background-color   colors/gray-light
+                            :padding-vertical   16
                             :padding-horizontal 16
-                            :flex-direction :row
-                            :align-items :flex-end
-                            :margin-vertical 7}}
-        [react/text-input {:keyboard-type :numeric
-                           :placeholder "0"
+                            :flex-direction     :row
+                            :align-items        :center
+                            :margin-vertical    7}}
+        [react/text-input {:keyboard-type  :numeric
+                           :placeholder    "0"
                            :on-change-text (fn [x]
                                              (if-not (money/bignumber x)
                                                (reset! gas-price-error "Invalid number format")
                                                (reset! gas-price-error nil))
                                              (on-gas-price-input-change x))
-                           :value gas-price-input
-                           :style {:font-size 15
-                                   :flex 1}}]
+                           :default-value  gas-price-input
+                           :style          {:font-size 15
+                                            :flex      1}}]
         [react/text "Gwei"]]
        [react/text {:style {:color colors/gray
                             :font-size 12}}
@@ -520,25 +520,24 @@ Example:
            {:color        colors/blue-light
             :font-size    12
             :bottom-value -3}]])
-       [react/view {:style {:border-radius 8
-                            :background-color colors/gray-light
-                            :padding-vertical 16
+       [react/view {:style {:border-radius      8
+                            :background-color   colors/gray-light
+                            :padding-vertical   16
                             :padding-horizontal 16
-                            :flex-direction :row
-                            :align-items :flex-end
-                            :margin-vertical 7}}
-        [react/text-input {:keyboard-type :numeric
-                           :placeholder "0"
-                           :on-change-text
-                           (fn [x]
-                             (if-not (money/bignumber x)
-                               (reset! gas-error "Invalid number format")
-                               (reset! gas-error nil))
-                             (on-gas-input-change x))
-                           :value gas-input
-                           :style {:font-size 15
-                                   :flex 1}}]]
-       [react/text {:style {:color colors/gray
+                            :flex-direction     :row
+                            :align-items        :flex-end
+                            :margin-vertical    7}}
+        [react/text-input {:keyboard-type  :numeric
+                           :placeholder    "0"
+                           :on-change-text (fn [x]
+                                             (if-not (money/bignumber x)
+                                               (reset! gas-error "Invalid number format")
+                                               (reset! gas-error nil))
+                                             (on-gas-input-change x))
+                           :default-value  gas-input
+                           :style          {:font-size 15
+                                            :flex      1}}]]
+       [react/text {:style {:color     colors/gray
                             :font-size 12}}
         "Gas limit is the maximum units of gas you're willing to spend on this transaction."]])))
 
@@ -889,13 +888,13 @@ Example:
                                           contact
                                           transaction]}]
   {:pre [(map? native-currency)]}
-  (let [tx-atom (reagent/atom transaction)
-        token (or (fetch-token all-tokens network (:symbol transaction))
-                  native-currency)
-        state-atom (reagent/atom (create-initial-state token (:amount transaction)))
+  (let [tx-atom                (reagent/atom transaction)
+        token                  (or (fetch-token all-tokens network (:symbol transaction))
+                                   native-currency)
+        state-atom             (reagent/atom (create-initial-state token (:amount transaction)))
         network-fees-modal-ref (atom nil)
-        open-network-fees! #(anim-ref-send @network-fees-modal-ref :open!)
-        close-network-fees! #(anim-ref-send @network-fees-modal-ref :close!)]
+        open-network-fees!     #(anim-ref-send @network-fees-modal-ref :open!)
+        close-network-fees!    #(anim-ref-send @network-fees-modal-ref :close!)]
     ;; initialize the starting gas price
     (when-not (optimal-gas-present? transaction)
       (fetch-optimal-gas
@@ -903,9 +902,9 @@ Example:
        #(swap! tx-atom merge %)))
     (fn [{:keys [balance network prices fiat-currency
                  native-currency all-tokens modal?]}]
-      (let [symbol        (some :symbol [@tx-atom native-currency])
-            token (-> (tokens/asset-for all-tokens (ethereum/network->chain-keyword network) symbol)
-                      (assoc :amount (get balance symbol (money/bignumber 0))))
+      (let [symbol (some :symbol [@tx-atom native-currency])
+            token  (-> (tokens/asset-for all-tokens (ethereum/network->chain-keyword network) symbol)
+                       (assoc :amount (get balance symbol (money/bignumber 0))))
             gas-gas-price->fiat
             (fn [gas-map]
               (network-fees prices token fiat-currency (max-fee gas-map)))]
@@ -915,7 +914,7 @@ Example:
          (if (empty? balance)
            (info-page "You don't have any assets yet")
            (let [{:keys [error-message input-amount] :as state} @state-atom
-                 input-symbol (input-currency-symbol state token fiat-currency)
+                 input-symbol     (input-currency-symbol state token fiat-currency)
                  converted-phrase (converted-currency-phrase state token fiat-currency prices)]
              [react/view {:flex 1}
               ;; network fees modal
@@ -933,8 +932,7 @@ Example:
                                     (close-network-fees!))))]])
               [react/touchable-highlight {:style {:background-color colors/black-transparent}
                                           :on-press #(re-frame/dispatch
-                                                      [:navigate-to
-                                                       :wallet-choose-asset
+                                                      [:navigate-to :wallet-choose-asset
                                                        {:on-asset (fn [{:keys [symbol]}]
                                                                     (when symbol
                                                                       (swap! tx-atom assoc :symbol symbol))
@@ -944,34 +942,34 @@ Example:
               [react/view {:flex 1}
                [react/view {:flex 1}]
                [react/view {:justify-content :center
-                            :align-items :flex-end
-                            :flex-direction :row}
+                            :align-items     :center
+                            :flex-direction  :row}
                 (when error-message
                   [tooltip/tooltip error-message {:color        colors/white
                                                   :font-size    12
                                                   :bottom-value 15}])
                 [react/text-input
-                 {:on-change-text #(swap! state-atom update-input-amount % token fiat-currency prices)
-                  :keyboard-type :numeric
-                  :accessibility-label :amount-input
-                  :auto-focus true
-                  :auto-capitalize :none
-                  :auto-correct false
-                  :placeholder "0"
+                 {:on-change-text         #(swap! state-atom update-input-amount % token fiat-currency prices)
+                  :keyboard-type          :numeric
+                  :accessibility-label    :amount-input
+                  :auto-focus             true
+                  :auto-capitalize        :none
+                  :auto-correct           false
+                  :placeholder            "0"
                   :placeholder-text-color "rgb(143,162,234)"
-                  :multiline true
-                  :max-length 42
-                  :value input-amount
-                  :selection-color colors/green
-                  :style {:color colors/white
-                          :font-size 30
-                          :font-weight :bold
-                          :padding-horizontal 10
-                          :max-width 290}}]
-                [react/text {:style {:color (if (not (string/blank? input-amount))
-                                              colors/white
-                                              "rgb(143,162,234)")
-                                     :font-size 30
+                  :multiline              true
+                  :max-length             20
+                  :default-value          input-amount
+                  :selection-color        colors/green
+                  :style                  {:color              colors/white
+                                           :font-size          30
+                                           :font-weight        :bold
+                                           :padding-horizontal 10
+                                           :max-width          290}}]
+                [react/text {:style {:color       (if (not (string/blank? input-amount))
+                                                    colors/white
+                                                    "rgb(143,162,234)")
+                                     :font-size   30
                                      :font-weight :bold}}
                  input-symbol]]
                [react/view {}

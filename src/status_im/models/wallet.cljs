@@ -91,12 +91,12 @@
       (assoc :nonce nonce))))
 
 ;; SEND TRANSACTION -> RPC TRANSACTION
-(defn prepare-send-transaction [from {:keys [amount to gas gas-price data nonce]}]
+(defn prepare-send-transaction [from {:keys [amount to gas gas-price optimal-gas optimal-gas-price data nonce]}]
   (cond-> {:from     (ethereum/normalized-address from)
            :to       (ethereum/normalized-address to)
            :value    (ethereum/int->hex amount)
-           :gas      (ethereum/int->hex gas)
-           :gasPrice (ethereum/int->hex gas-price)}
+           :gas      (ethereum/int->hex (or gas optimal-gas))
+           :gasPrice (ethereum/int->hex (or gas-price optimal-gas-price))}
     data
     (assoc :data data)
     nonce
@@ -145,9 +145,8 @@
            (when on-error
              {:dispatch (conj on-error "transaction was cancelled by user")}))))
 
-(defn prepare-unconfirmed-transaction [db now hash]
-  (let [transaction (get-in db [:wallet :send-transaction])
-        all-tokens  (:wallet/all-tokens db)]
+(defn prepare-unconfirmed-transaction [db now transaction hash]
+  (let [all-tokens  (:wallet/all-tokens db)]
     (let [chain (:chain db)
           token (tokens/symbol->token all-tokens (keyword chain) (:symbol transaction))]
       (-> transaction
