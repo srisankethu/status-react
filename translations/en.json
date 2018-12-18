@@ -15,6 +15,8 @@
     "sync-all-devices": "Sync all devices",
     "syncing-devices": "Syncing...",
     "paired-devices": "Paired devices",
+    "pairing-maximum-number-reached-title": "Max number of devices reached",
+    "pairing-maximum-number-reached-content": "Please disable one of your devices before enabling a new one.",
     "pairing-new-installation-detected-title": "New device detected",
     "pairing-new-installation-detected-content": "A new device has been detected.\nIn order to use your devices correctly, it's important to pair and enable them before using them.\nPlease go to the device section under settings to pair your devices.",
     "pairing-go-to-installation": "Go to pairing settings",

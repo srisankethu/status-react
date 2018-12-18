@@ -17,6 +17,7 @@
             [status-im.transport.message.pairing :as transport.pairing]))
 
 (def contact-batch-n 4)
+(def max-installations 2)
 
 (defn- parse-response [response-js]
   (-> response-js
@@ -168,8 +169,12 @@
   (native-module/disable-installation installation-id
                                       (partial handle-disable-installation-response installation-id)))
 
-(defn enable-fx [_ installation-id]
-  {:pairing/enable-installation installation-id})
+(defn enable-fx [cofx installation-id]
+  (if (< (count (filter :enabled? (get-in cofx [:db :pairing/installations]))) max-installations)
+    {:pairing/enable-installation installation-id}
+    {:utils/show-popup {:title (i18n/label :t/pairing-maximum-number-reached-title)
+
+                        :content (i18n/label :t/pairing-maximum-number-reached-content)}}))
 
 (defn disable-fx [_ installation-id]
   {:pairing/disable-installation installation-id})
