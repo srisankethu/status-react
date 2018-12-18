@@ -59,6 +59,7 @@
   (-> chat
       (update :admins   #(into #{} %))
       (update :contacts #(into #{} %))
+      (update :members-joined #(into #{} %))
       (update :tags #(into #{} %))
       (update :membership-updates  (partial unmarshal-membership-updates chat-id))
       ;; We cap the clock value to a safe value in case the db has been polluted

@@ -230,3 +230,7 @@
                                   :optional true}
            :last-message-type    {:type     :string
                                   :optional true}}))
+
+(def v11
+  (update v10 :properties assoc
+          :members-joined         {:type "string[]"}))

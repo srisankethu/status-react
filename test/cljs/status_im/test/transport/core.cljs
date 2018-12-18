@@ -8,13 +8,17 @@
   (let [cofx {:db {:account/account {:public-key "1"}
                    :transport/chats {"1" {:topic "topic-1"}
                                      "2" {}
-                                     "3" {:topic "topic-3"}}
+                                     "3" {:topic "topic-3"
+                                          :sym-key-id "a"}}
                    :semaphores #{}}}]
-    (testing "it adds the discover filter"
-      (is (= {:web3 nil :private-key-id "1" :topic "0xf8946aac"}
-             (:shh/add-discovery-filter (transport/init-whisper cofx "user-address")))))
+    (testing "it adds the discover filters"
+      (is (= {:web3 nil :private-key-id "1" :topics [{:chat-id :discovery-topic
+                                                      :topic "0xf8946aac"}
+                                                     {:chat-id "1"
+                                                      :topic "topic-1"}]}
+             (:shh/add-discovery-filters (transport/init-whisper cofx "user-address")))))
     (testing "it restores the sym-keys"
-      (is (= [["1" {:topic "topic-1"}] ["3" {:topic "topic-3"}]]
+      (is (= [["1" {:topic "topic-1"}] ["3" {:topic "topic-3" :sym-key-id "a"}]]
              (-> (transport/init-whisper cofx  "user-address") :shh/restore-sym-keys :transport))))
     (testing "custom mailservers"
       (let [ms-1            {:id "1"
