@@ -103,19 +103,21 @@
             100))))}
     [react/view styles/container
      [toolbar show-welcome? (and network-initialized? (not rpc-network?)) sync-state latest-block-number]
+     (when-not show-welcome?
+       [connectivity/connectivity-view])
      (cond show-welcome?
            [welcome view-id]
+
            loading?
            [react/view {:style {:flex            1
                                 :justify-content :center
                                 :align-items     :center}}
             [components/activity-indicator {:animating true}]]
+
            :else
            [chats-list])
      (when platform/android?
-       [home-action-button])
-     (when-not show-welcome?
-       [connectivity/error-view])]))
+       [home-action-button])]))
 
 (views/defview home-wrapper []
   (views/letsubs [loading? [:get :chats/loading?]]
