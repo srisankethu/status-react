@@ -316,3 +316,6 @@
                 message-type (aget last-message "message-type")]
             (aset chat "last-message-content" content)
             (aset chat "last-message-type" message-type)))))))
+
+(defn v29 [old-realm new-realm]
+  (log/debug "migrating v29 account database"))
