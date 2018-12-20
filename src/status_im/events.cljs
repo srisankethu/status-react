@@ -36,6 +36,7 @@
             [status-im.signals.core :as signals]
             [status-im.transport.message.core :as transport.message]
             [status-im.ui.screens.currency-settings.models :as currency-settings.models]
+            [status-im.chat.models.message :as models.message]
             [status-im.node.core :as node]
             [status-im.web3.core :as web3]
             [status-im.ui.screens.navigation :as navigation]
@@ -96,11 +97,14 @@
  [(re-frame/inject-cofx :web3/get-web3)
   (re-frame/inject-cofx :get-default-dapps)
   (re-frame/inject-cofx :data-store/all-chats)]
- (fn [{:keys [db] :as cofx} [_ address]]
+ (fn [{:keys [db all-stored-chats] :as cofx} [_ update-last-messages]]
    (fx/merge cofx
              {:db (assoc db :chats/loading? false)}
              (chat-loading/initialize-chats)
-             (chat-loading/initialize-pending-messages))))
+             (chat-loading/initialize-pending-messages)
+             (when update-last-messages
+               (models.message/update-last-messages
+                (map :chat-id all-stored-chats))))))
 
 (handlers/register-handler-fx
  :init.callback/account-change-success
@@ -1291,6 +1295,23 @@
  [(re-frame/inject-cofx :random-id-generator)]
  (fn [cofx [_ public-key]]
    (contact/add-contact cofx public-key)))
+
+(handlers/register-handler-fx
+ :contact.ui/block-contact-pressed
+ (fn [cofx [_ public-key]]
+   (contact/block-contact-confirmation cofx public-key)))
+
+(handlers/register-handler-fx
+ :contact.ui/block-contact-confirmed
+ [(re-frame/inject-cofx :data-store/get-user-messages)
+  (re-frame/inject-cofx :data-store/get-user-statuses)]
+ (fn [cofx [_ public-key]]
+   (contact/block-contact cofx public-key)))
+
+(handlers/register-handler-fx
+ :contact.ui/unblock-contact-pressed
+ (fn [cofx [_ public-key]]
+   (contact/unblock-contact cofx public-key)))
 
 (handlers/register-handler-fx
  :contact.ui/close-contact-pressed
