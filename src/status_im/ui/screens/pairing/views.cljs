@@ -11,6 +11,7 @@
             [status-im.utils.platform :as utils.platform]
             [status-im.utils.gfycat.core :as gfycat]
             [status-im.ui.components.button.view :as buttons]
+            [status-im.ui.components.checkbox.view :as checkbox.views]
             [status-im.ui.components.list.views :as list]
             [status-im.ui.components.react :as react]
             [status-im.ui.components.status-bar.view :as status-bar]
@@ -120,9 +121,14 @@
       [react/text {:style styles/installation-item-name-text}
        (gfycat/generate-gfy installation-id)]]]
     [react/view
-     [react/switch {:on-tint-color   colors/blue
-                    :value           enabled?
-                    :on-value-change (partial toggle-enabled! installation-id enabled?)}]]]])
+     (if utils.platform/ios?
+       ;; On IOS switches seems to be broken, they take up value of dev-mode? (so if dev mode is on they all show to be on).
+       ;; Replacing therefore with checkbox until I have more time to investigate
+       (checkbox.views/plain-checkbox {:checked? enabled?
+                                       :on-value-change (partial toggle-enabled! installation-id enabled?)})
+       [react/switch {:on-tint-color   colors/blue
+                      :value           enabled?
+                      :on-value-change (partial toggle-enabled! installation-id enabled?)}])]]])
 
 (defn render-rows [installation-id installations]
   [react/scroll-view {:style styles/wrapper}
