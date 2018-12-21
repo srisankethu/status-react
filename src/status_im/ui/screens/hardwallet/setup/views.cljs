@@ -1,7 +1,6 @@
 (ns status-im.ui.screens.hardwallet.setup.views
   (:require-macros [status-im.utils.views :refer [defview letsubs]])
   (:require [re-frame.core :as re-frame]
-            [reagent.core :as reagent]
             [status-im.react-native.js-dependencies :as js-dependencies]
             [status-im.ui.screens.profile.seed.views :as seed.views]
             [status-im.ui.screens.hardwallet.components :as components]
@@ -139,7 +138,7 @@
             word [:hardwallet-recovery-phrase-word]
             input-word [:hardwallet-recovery-phrase-input-word]
             error [:hardwallet-recovery-phrase-confirm-error]
-            ref (reagent/atom nil)]
+            ref (atom nil)]
     (let [{:keys [word idx]} word]
       [react/view styles/enter-pair-code-container
        [react/view styles/enter-pair-code-title-container
@@ -293,8 +292,8 @@
                                :size      :large}]]])
 
 (defview preparing []
-  (letsubs [progress-bar (reagent/atom nil)
-            listener (reagent/atom nil)]
+  (letsubs [progress-bar (atom nil)
+            listener (atom nil)]
     {:component-will-mount (fn []
                              (when @listener
                                (.removeListener @listener)))

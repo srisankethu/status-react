@@ -4,6 +4,7 @@
 
 (def container
   {:flex             1
+   :justify-content :space-between
    :background-color colors/white})
 
 (def inner-container
