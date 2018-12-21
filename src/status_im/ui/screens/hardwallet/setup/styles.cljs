@@ -207,7 +207,7 @@
   {:height 200})
 
 (def progress-bar-container
-  {:width 280})
+  {:width "65%"})
 
 ;; secret keys step
 
